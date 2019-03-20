@@ -22,7 +22,7 @@ pod 'MGJRouterKit'
 
 ## Author
 
-907689522@qq.com, xtz_pioneer@163.com
+xtzPioneer, xtz_pioneer@163.com
 
 ## License
 
