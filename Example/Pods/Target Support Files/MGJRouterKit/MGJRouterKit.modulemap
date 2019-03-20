@@ -1,0 +1,6 @@
+framework module MGJRouterKit {
+  umbrella header "MGJRouterKit-umbrella.h"
+
+  export *
+  module * { export * }
+}
