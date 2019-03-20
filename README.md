@@ -10,7 +10,7 @@
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 ## 代码片段
-```
+```objc
 /** 创建对象 */
 @interface MGJRouter (TXCreateObject)
 
@@ -32,7 +32,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 ```
 
 ## 使用方法
-```
+```objc
 * #import "MGJRouterKit.h" 即可使用
 /** 自动注册 */
 + (void)load {
