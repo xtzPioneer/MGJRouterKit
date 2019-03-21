@@ -16,11 +16,25 @@
     return [UIApplication sharedApplication].delegate;
 }
 
-/** 获取当前控制器 */
-+ (UINavigationController *)currentViewController{
+/** rootViewController */
++ (UIViewController *)rootViewController{
     UIWindow *window=[[self appDelegate] window];
-    UITabBarController *tabBarController=(UITabBarController*)window.rootViewController;
-    return tabBarController.selectedViewController;
+    return window.rootViewController;
+}
+
+/** 获取当前控制器 */
++ (UIViewController*)currentViewController{
+    UIViewController *currentViewController=[self rootViewController];
+    while (currentViewController.presentedViewController) {
+        currentViewController = currentViewController.presentedViewController;
+    }
+    if ([currentViewController isKindOfClass:[UITabBarController class]]) {
+        currentViewController = [(UITabBarController *)currentViewController selectedViewController];
+    }
+    if ([currentViewController isKindOfClass:[UINavigationController class]]) {
+        currentViewController = [(UINavigationController *)currentViewController topViewController];
+    }
+    return currentViewController;
 }
 
 /** 自动注册 */
@@ -60,13 +74,13 @@
     // 测试1
     [MGJRouter registerURLPattern:@"tx://push/test1ViewController" toHandler:^(NSDictionary *routerParameters) {
         UIViewController *viewController=[MGJRouter createObjectWithClassName:@"TXTest1ViewController" parameters:routerParameters];
-        [[self currentViewController] pushViewController:viewController animated:YES];
+        [[self currentViewController].navigationController pushViewController:viewController animated:YES];
     }];
     
     // 测试2
     [MGJRouter registerURLPattern:@"tx://push/test2ViewController" toHandler:^(NSDictionary *routerParameters) {
         UIViewController *viewController=[MGJRouter createObjectWithClassName:@"TXTest2ViewController" parameters:routerParameters];
-        [[self currentViewController] pushViewController:viewController animated:YES];
+        [[self currentViewController].navigationController pushViewController:viewController animated:YES];
     }];
     
     // Web模块1
@@ -78,7 +92,7 @@
     // Web模块2
     [MGJRouter registerURLPattern:@"tx://push/web" toHandler:^(NSDictionary *routerParameters) {
         UIViewController *viewController=[MGJRouter createObjectWithClassName:@"TXWebViewController" parameters:routerParameters];
-        [[self currentViewController] pushViewController:viewController animated:YES];
+        [[self currentViewController].navigationController pushViewController:viewController animated:YES];
     }];
 }
 

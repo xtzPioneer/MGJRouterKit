@@ -9,7 +9,9 @@
 #import "MGJRouter+TXCreateObject.h"
 #import <objc/runtime.h>
 
-/** DEBUG 打印日志 */
+/**
+ *  DEBUG 打印日志
+ */
 #if DEBUG
 #define TXMGJLog(s, ... ) NSLog( @"<FileName:%@ InThe:%d Line> Log:%@", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, [NSString stringWithFormat:(s), ##__VA_ARGS__] )
 #else
@@ -20,7 +22,9 @@
 
 /**
  * 创建对象
- * @param className 类名字
+ *
+ * @param className 类名称
+ *
  * @return 创建的对象
  */
 + (id)createObjectWithClassName:(NSString *)className{
@@ -34,9 +38,14 @@
 }
 
 /**
- * 创建对象 (必须实现"routeWithParameters:(NSDictionary*)parameters"该方法)
+ * 创建对象
+ *
+ * 注意:使用该方法创建对象,必须在该对象中实现"-(void)routeWithParameters:(NSDictionary*)parameters;"方法,否则参数将传递失败
+ *
  * @param className 类名字
- * @param parameters 传递的参数
+ *
+ * @param parameters 参数
+ *
  * @return 创建的对象
  */
 + (id)createObjectWithClassName:(NSString *)className parameters:(NSDictionary*)parameters{

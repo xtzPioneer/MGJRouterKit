@@ -172,7 +172,7 @@ NSString *const estimatedProgressKey=@"estimatedProgress";
         }
     }else if ([keyPath isEqualToString:titleKey]){
         if (object==self.webView) {
-            //self.title = self.webView.title;
+            self.title = self.webView.title;
         }else{
             [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
         }
@@ -185,6 +185,7 @@ NSString *const estimatedProgressKey=@"estimatedProgress";
     [self.webView removeObserver:self forKeyPath:titleKey];
     [self.webView removeObserver:self forKeyPath:estimatedProgressKey];
     self.webView.navigationDelegate=nil;
+    NSLog(@"%s",__func__);
 }
 
 - (void)didReceiveMemoryWarning {
