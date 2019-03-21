@@ -6,12 +6,11 @@
 # To learn more about a Podspec see https://guides.cocoapods.org/syntax/podspec.html
 #
 
-# 格式化样板
 Pod::Spec.new do |s|
   # 组件名称
   s.name             = 'MGJRouterKit'
   # 组件版本
-  s.version          = '0.1.0'
+  s.version          = '0.1.1'
   # 组件概要说明
   s.summary          = '蘑菇街路由器套件.'
 
@@ -72,4 +71,5 @@ Pod::Spec.new do |s|
   
   # 依赖的系统非framework库
   # s.libraries = 'sqlite3.0'
+  
 end

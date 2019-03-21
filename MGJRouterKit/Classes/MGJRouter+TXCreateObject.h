@@ -37,7 +37,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (id)createObjectWithClassName:(NSString *)className parameters:(NSDictionary*)parameters;
 
-
 @end
 
 NS_ASSUME_NONNULL_END
