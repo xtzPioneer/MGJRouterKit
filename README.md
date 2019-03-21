@@ -11,40 +11,92 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## 代码片段
 ```objc
-/** 创建对象 */
+//
+//  MGJRouter+TXCreateObject.h
+//  MGJRouterDemo
+//
+//  Created by xtz_pioneer on 2019/3/20.
+//  Copyright © 2019 zhangxiong. All rights reserved.
+//
+
+#import "MGJRouter.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
+/**
+ *  蘑菇街路由器套件,在该基础之上进行了扩展,使其更加简单快捷.
+ */
 @interface MGJRouter (TXCreateObject)
 
 /**
-* 创建对象
-* @param className 类名字
-* @return 创建的对象
-*/
+ * 创建对象
+ *
+ * @param className 类名称
+ *
+ * @return 创建的对象
+ */
 + (id)createObjectWithClassName:(NSString *)className;
 
 /**
-* 创建对象 (必须实现"routeWithParameters:(NSDictionary*)parameters"该方法)
-* @param className 类名字
-* @param parameters 传递的参数
-* @return 创建的对象
-*/
+ * 创建对象
+ *
+ * 注意:使用该方法创建对象,必须在该对象中实现"-(void)routeWithParameters:(NSDictionary*)parameters;"方法,否则参数将传递失败
+ *
+ * @param className 类名字
+ *
+ * @param parameters 参数
+ *
+ * @return 创建的对象
+ */
 + (id)createObjectWithClassName:(NSString *)className parameters:(NSDictionary*)parameters;
 
+
+@end
+
+NS_ASSUME_NONNULL_END
 ```
 
 ## 使用方法
 * #import "MGJRouterKit.h" 即可使用
 ```objc
 
+//
+//  TXGlobalModuleRouter.m
+//  MGJRouterDemo
+//
+//  Created by xtz_pioneer on 2019/3/20.
+//  Copyright © 2019 zhangxiong. All rights reserved.
+//
+
+#import "TXGlobalModuleRouter.h"
+#import <UIKit/UIKit.h>
+
+@implementation TXGlobalModuleRouter
+
 /** appDelegate */
 + (id)appDelegate{
     return [UIApplication sharedApplication].delegate;
 }
 
-/** 获取当前控制器 */
-+ (UINavigationController *)currentViewController{
+/** rootViewController */
++ (UIViewController *)rootViewController{
     UIWindow *window=[[self appDelegate] window];
-    UITabBarController *tabBarController=(UITabBarController*)window.rootViewController;
-    return tabBarController.selectedViewController;
+    return window.rootViewController;
+}
+
+/** 获取当前控制器 */
++ (UIViewController*)currentViewController{
+    UIViewController *currentViewController=[self rootViewController];
+    while (currentViewController.presentedViewController) {
+        currentViewController = currentViewController.presentedViewController;
+    }
+    if ([currentViewController isKindOfClass:[UITabBarController class]]) {
+        currentViewController = [(UITabBarController *)currentViewController selectedViewController];
+    }
+    if ([currentViewController isKindOfClass:[UINavigationController class]]) {
+        currentViewController = [(UINavigationController *)currentViewController topViewController];
+    }
+    return currentViewController;
 }
 
 /** 自动注册 */
@@ -84,13 +136,13 @@ To run the example project, clone the repo, and run `pod install` from the Examp
     // 测试1
     [MGJRouter registerURLPattern:@"tx://push/test1ViewController" toHandler:^(NSDictionary *routerParameters) {
         UIViewController *viewController=[MGJRouter createObjectWithClassName:@"TXTest1ViewController" parameters:routerParameters];
-        [[self currentViewController] pushViewController:viewController animated:YES];
+        [[self currentViewController].navigationController pushViewController:viewController animated:YES];
     }];
     
     // 测试2
     [MGJRouter registerURLPattern:@"tx://push/test2ViewController" toHandler:^(NSDictionary *routerParameters) {
         UIViewController *viewController=[MGJRouter createObjectWithClassName:@"TXTest2ViewController" parameters:routerParameters];
-        [[self currentViewController] pushViewController:viewController animated:YES];
+        [[self currentViewController].navigationController pushViewController:viewController animated:YES];
     }];
     
     // Web模块1
@@ -102,9 +154,90 @@ To run the example project, clone the repo, and run `pod install` from the Examp
     // Web模块2
     [MGJRouter registerURLPattern:@"tx://push/web" toHandler:^(NSDictionary *routerParameters) {
         UIViewController *viewController=[MGJRouter createObjectWithClassName:@"TXWebViewController" parameters:routerParameters];
-        [[self currentViewController] pushViewController:viewController animated:YES];
+        [[self currentViewController].navigationController pushViewController:viewController animated:YES];
     }];
 }
+
+@end
+
+//
+//  TXModule1ViewController.m
+//  MGJRouterDemo
+//
+//  Created by xtz_pioneer on 2019/3/20.
+//  Copyright © 2019 zhangxiong. All rights reserved.
+//
+
+#import "TXModule1ViewController.h"
+
+@interface TXModule1ViewController ()
+
+@end
+
+@implementation TXModule1ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.view.backgroundColor=[UIColor whiteColor];
+    // 按钮
+    UIButton *button=[[UIButton alloc]init];
+    [button setTitle:@"从模块1点击进入" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+    [button addTarget:self action:@selector(buttonEvent:) forControlEvents:UIControlEventTouchUpInside];
+    CGFloat buttonX=15;
+    CGFloat buttonY=200;
+    CGFloat buttonW=self.view.frame.size.width-buttonX*2;
+    CGFloat buttonH=25;
+    button.frame=CGRectMake(buttonX, buttonY, buttonW, buttonH);
+    [self.view addSubview:button];
+    
+    // 按钮2
+    UIButton *button2=[[UIButton alloc]init];
+    [button2 setTitle:@"从模块1点击进入Web" forState:UIControlStateNormal];
+    [button2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [button2 setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+    [button2 addTarget:self action:@selector(button2Event:) forControlEvents:UIControlEventTouchUpInside];
+    CGFloat button2X=15;
+    CGFloat button2Y=400;
+    CGFloat button2W=self.view.frame.size.width-buttonX*2;
+    CGFloat button2H=25;
+    button2.frame=CGRectMake(button2X, button2Y, button2W, button2H);
+    [self.view addSubview:button2];
+    
+    // Do any additional setup after loading the view.
+}
+
+/** 按钮事件 */
+- (void)buttonEvent:(id)sender{
+    NSMutableDictionary *parameters=[NSMutableDictionary dictionary];
+    parameters[@"text"]=@"哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈";
+    [MGJRouter openURL:@"tx://push/test1ViewController"
+          withUserInfo:parameters
+            completion:nil];
+}
+
+/** 按钮事件 */
+- (void)button2Event:(id)sender{
+    NSMutableDictionary *parameters=[NSMutableDictionary dictionary];
+    parameters[@"url"]=@"https://github.com/xtzPioneer/MGJRouterKit.git";
+    [MGJRouter openURL:@"tx://push/web"
+          withUserInfo:parameters
+            completion:nil];
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end
+
 ```
 
 ## Installation
