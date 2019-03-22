@@ -1,6 +1,6 @@
 PODS:
   - MGJRouter (0.10.0)
-  - MGJRouterKit (0.1.1):
+  - MGJRouterKit (0.1.2):
     - MGJRouter
 
 DEPENDENCIES:
@@ -16,7 +16,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   MGJRouter: 15d94541eb2cc81eff7d577337288feb7ae9575f
-  MGJRouterKit: a83cb0d6fcd463cec1fb92756838e7b7a4ebbd59
+  MGJRouterKit: 15620dbce11f80a94851f55e93f57a79495886bb
 
 PODFILE CHECKSUM: 64ccc7fd4d1663cc6681d6411b1cb02e2823dd82
 
