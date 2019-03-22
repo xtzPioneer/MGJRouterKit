@@ -27,6 +27,8 @@ typedef void (^TXOperationCompletionHandler) (NSError *error,id obj);
         UINavigationController *navigationController=routerParameters[MGJRouterParameterUserInfo][@"navigationController"];
         [navigationController pushViewController:viewController animated:YES];
     }];
+    
+    
 }
 
 /** 路由参数 */

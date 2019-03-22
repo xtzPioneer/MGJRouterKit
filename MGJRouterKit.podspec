@@ -10,9 +10,9 @@ Pod::Spec.new do |s|
   # 组件名称
   s.name             = 'MGJRouterKit'
   # 组件版本
-  s.version          = '0.1.1'
+  s.version          = '0.1.2'
   # 组件概要说明
-  s.summary          = '蘑菇街路由器套件.'
+  s.summary          = '蘑菇街路由器套件,在该基础之上进行了扩展,使其更加简单快捷,主要解决了参数传递问题.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
 
   # 组件详细说明
   s.description      = <<-DESC
-  蘑菇街路由器套件,在该基础之上进行了扩展,使其更加简单快捷.
+  蘑菇街路由器套件,在该基础之上进行了扩展,使其更加简单快捷,主要解决了参数传递问题.利用“runtime”传递参数,同时可以传递多个参数
                        DESC
   # 首页地址
   s.homepage         = 'https://github.com/xtzPioneer/MGJRouterKit'
@@ -63,7 +63,6 @@ Pod::Spec.new do |s|
   # s.frameworks = 'UIKit', 'MapKit'
   
   # 依赖的第三方framework库
-  
   # s.vendored_frameworks = 'MessageModule/Classes/**/*.{framework}'
   
   # 依赖的第三方.a库

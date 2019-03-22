@@ -12,6 +12,7 @@
 
 #import "MGJRouter+TXCreateObject.h"
 #import "MGJRouterKit.h"
+#import "NSObject+TXTransfer.h"
 
 FOUNDATION_EXPORT double MGJRouterKitVersionNumber;
 FOUNDATION_EXPORT const unsigned char MGJRouterKitVersionString[];
