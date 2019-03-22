@@ -5,9 +5,9 @@
 [![License](https://img.shields.io/cocoapods/l/MGJRouterKit.svg?style=flat)](https://cocoapods.org/pods/MGJRouterKit)
 [![Platform](https://img.shields.io/cocoapods/p/MGJRouterKit.svg?style=flat)](https://cocoapods.org/pods/MGJRouterKit)
 
-## Example
+## 说明
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+蘑菇街路由器套件,在该基础之上进行了扩展,使其更加简单快捷,主要解决了参数传递问题.利用“runtime”传递参数,同时可以传递多个参数
 
 ## 代码片段
 ```objc
